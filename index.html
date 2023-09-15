@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz do NEM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Quanto você NEM</h1>
+        <div id="question"></div>
+        <div id="options"> 
+            
+            <button alt="tony stark">
+                <i></i>
+                <i>o</i>
+                <i>n</i>
+                <i>y</i>
+                <i>&nbsp;</i>
+                <i>s</i>
+                <i>t</i>
+                <i>a</i>
+                <i>r</i>
+                <i>k</i>
+              </button>
+            </button>
+            <button class="option" id="btn-1"></button>
+            <button class="option" id="btn-2"></button>
+            <button class="option" id="btn-3"></button>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container-result"> 
+    <div id="result"> 
+    </div>
+</div>
+
+    <script>
+        let questions = [
+            {
+                question: "Para cumprir a carga horária total, os estudantes do Ensino Médio terão que dedicar quantas horas diariamente ? ",
+                options: ["<i class='fas fa-sun icon'></i>4 horas", "<i class='fas fa-mars icon'></i>5 horas", "<i class='fas fa-moon icon'></i>3,5 horas", "<i class='fas fa-venus icon'></i>6 horas"],
+                answer: 1,
+                image: "https://blog.explicae.com.br/wp-content/uploads/2018/06/HORARIO-ESTUDO-ENEM-VESTIBULAR.png"
+            },
+            {
+                question: "Qual foi a principal implementação do Em. no SESI-240? ?",
+                options: ["<i class='fas fa-water icon'></i>Quadra livre", "<i class='fas fa-coins icon'></i>Etec", "<i class='fas fa-cog icon'></i>Senai", "<i class='fas fa-leaf icon'></i>sala de jogos"],
+                answer: 2,
+                image: "https://s24534.pcdn.co/carreira-sucesso/wp-content/uploads/sites/3/2022/12/cursos-tecnicos.jpg  "
+            },
+            {
+                question: "Quantas aulas tem o NEM ?",
+                options: ["<i class='fas fa-water icon'></i>8 aulas", "<i class='fas fa-coins icon'></i>6 aulas", "<i class='fas fa-cog icon'></i>7 aulas", "<i class='fas fa-leaf icon'></i>3 aulas"],
+                answer: 1,
+                image: "https://horario.com.br/wp-content/uploads/2019/09/05_geha_blog_impacto_horario_escolar.jpg"
+            },
+             {
+                question: "O inglês se tornou obrigatório ?",
+                options: ["<i class='fas fa-water icon'></i>para o ensino médio apenas", "<i class='fas fa-coins icon'></i>Apenas o espanhol se tornou", "<i class='fas fa-cog icon'></i>apenas para o FUND 1", "<i class='fas fa-leaf icon'></i>desde do FUND 2"],
+                answer: 3,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYmjRg1LQQ3mnTkl1BBnxZmuaOJqHGIaWzwA&usqp=CAU"
+            },
+            {
+                question: "Qual é um dos principais objetivos do Novo Ensino Médio no Brasil?",
+                options: ["<i class='fas fa-water icon'></i>Reduzir a carga horária total de disciplinas para os alunos terem mais tempo livre.", "<i class='fas fa-coins icon'></i>Aumentar a ênfase nas disciplinas tradicionais, como Matemática e Português.", "<i class='fas fa-cog icon'></i>Ser mais flexível, onde os alunos escolhem os itinerários formativos", "<i class='fas fa-leaf icon'></i>Eliminar completamente as disciplinas de ciências sociais e humanas do currículo."],
+                answer: 2,
+                image: "https://blog.redebatista.edu.br/wp-content/uploads/2020/03/original-5163ba17ddbf11f7562a4c18a7f7cbb6.jpg"
+            },
+        ];
+
+        var currentQuestion = 0;
+        var remainingAttempts = 3;
+        var score = 20;
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                const questionElem = document.getElementById("question");
+                const optionsElem = document.getElementById("options");
+                var resultElem = document.getElementById("result");
+
+                questionElem.innerHTML = questions[currentQuestion].question;
+
+                optionsElem.innerHTML = "";
+                for (let i = 0; i < 4; i++) {
+                    const optionBtn = document.createElement("button");
+                    optionBtn.className = "option";
+                    optionBtn.innerHTML = questions[currentQuestion].options[i];
+                    optionBtn.addEventListener("click", () => checkAnswer(i));
+                    optionsElem.appendChild(optionBtn);
+                }
+
+                const imageElem = document.createElement("img");
+                imageElem.src = questions[currentQuestion].image;
+                imageElem.alt = "Imagem";
+                imageElem.style.width = "15.625rem";
+                imageElem.style.height = "9.375rem"
+                imageElem.style.marginTop = "3.75rem";
+                imageElem.style.position = "absolute";
+                imageElem.style.left = "40.625rem"
+
+                questionElem.appendChild(imageElem);
+
+                resultElem.innerHTML = "Tentativas restantes:" + remainingAttempts + " | Pontuação:" + score;
+            } else {
+                document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+            }
+        }
+
+        function checkAnswer(selectedAnswer) {
+            if (selectedAnswer === questions[currentQuestion].answer) {
+                score += 20;
+                currentQuestion++;
+                remainingAttempts = 3; 
+                loadQuestion();
+            } else {
+                remainingAttempts--;
+                if (remainingAttempts === 0) {
+                    document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+                } else {
+                    alert("Resposta incorreta! Tente novamente.");
+                    loadQuestion();
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
